@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { axiosInstance } from "../../config/axiosInstance";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 export const LandingPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -91,9 +90,7 @@ export const LandingPage = () => {
               >
                 <td className="border border-gray-600 p-2">{user.name}</td>
                 <td className="border border-gray-600 p-2">
-                  {user.endDate
-                    ? new Date(user.endDate).toLocaleDateString()
-                    : "N/A"}
+                  {user.endDate ? new Date(user.endDate).toLocaleDateString() : "N/A"}
                 </td>
               </tr>
             ))}
@@ -102,28 +99,6 @@ export const LandingPage = () => {
       </div>
     </div>
   );
-
-  // Pie chart data calculations
-  const today = new Date();
-
-  const expiredUsers = allUsers.filter(
-    (user) => user.endDate && new Date(user.endDate) < today
-  );
-
-  const activeUsers = allUsers.filter(
-    (user) =>
-      user.endDate &&
-      new Date(user.endDate) >= today &&
-      !expiringSoonUsers.some((u) => u._id === user._id)
-  );
-
-  const pieData = [
-    { name: "Active", value: activeUsers.length },
-    { name: "Expiring Soon", value: expiringSoonUsers.length },
-    { name: "Expired", value: expiredUsers.length },
-  ];
-
-  const COLORS = ["#00C49F", "#FFBB28", "#FF4C4C"];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white font-sans">
@@ -156,29 +131,12 @@ export const LandingPage = () => {
         </nav>
       </header>
 
-      {/* Pie Chart Section */}
-      <div className="flex justify-center my-10">
-        <PieChart width={300} height={300}>
-          <Pie
-            data={pieData}
-            cx="50%"
-            cy="50%"
-            outerRadius={100}
-            fill="#8884d8"
-            dataKey="value"
-            label
-          >
-            {pieData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </div>
-
       {renderUserTable(expiringSoonUsers, "Expiring Soon", true)}
       {renderUserTable(allUsers, "All Users")}
+
+      {/* <footer className="p-6 text-center text-gray-600 border-t border-gray-700 mt-10">
+        &copy; 2025 NeoGym. All rights reserved.
+      </footer> */}
     </div>
   );
 };
