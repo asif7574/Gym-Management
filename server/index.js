@@ -9,7 +9,7 @@ const app=express();
 app.use(express.json())
 app.use(
   cors({
-      origin: ["http://localhost:5173","https://gym-management-client-alpha.vercel.app"] ,
+      origin: ["http://localhost:5173","https://gym-management-client-alpha.vercel.app","https://gym.asifkhan.shop"] ,
       credentials: true,
       methods: ["GET","POST","PUT","DELETE"]
   })
@@ -34,6 +34,7 @@ app.get('/', (req, res) => {
   })
   app.use('/',apiRouter)
 
+console.log("hi from");
 
 
   app.all("*", (req, res) => {
